@@ -33,6 +33,9 @@ Package.onUse(function(api){
         "client/templates.html",
         "client/controllers.coffee",
         "client/main.css",
+    ], "client");
+
+    api.addAssets([
         "public/loader.gif"
     ], "client");
 });
