@@ -169,7 +169,7 @@
       Meteor.userId?()
       @countPages()
       @reload()
-    Template[@templateName].onRendered =>
+    Template[@name].onRendered =>
       @setInfiniteTrigger() if @infinite
   
   #Stops all subscriptions and reloads the current page, provided it's available and @resetOnReload isn't true.
