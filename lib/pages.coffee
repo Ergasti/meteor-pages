@@ -24,10 +24,10 @@
     routerTemplate: [true, String, "pages"]
     routerLayout: [true, Match.Optional(String), undefined]
     sort: [true, Object, {}]
-    connection: [true, Object, Meteor]
 
     # Unavailable to the client after initialization
     
+    ddpConn: [false, Match.Any, undefined] #This is handled specially in the constructor
     auth: [false, Match.Optional(Function), undefined]
     availableSettings: [false, Object, {}]
     fastRender: [false, Boolean, false]
@@ -115,6 +115,10 @@
     @_currentPage = 1
 
     # Setup
+
+    # Handle the connection setting separately as it breaks at sanitizeRegex
+    @ddpConn = settings.ddpConn or Meteor.connection
+    delete settings.ddpConn
 
     @setCollection collection
     @setInitial settings
@@ -254,7 +258,7 @@
     last = args.length - 1
     if _.isFunction args[last]
       args[last] = args[last].bind @
-    Meteor.call.apply @, args
+    @ddpConn.call.apply @ddpConn, args
   
   # Sets/gets a session variable for this instance
   
@@ -417,7 +421,8 @@
       @Collection = collection
     else
       try
-        @Collection = new Mongo.Collection collection
+        options = {connection: @ddpConn} if @ddpConn
+        @Collection = new Mongo.Collection collection, options
         Pages::collections[collection] = @Collection
       catch e
         @Collection = Pages::collections[collection]
@@ -959,7 +964,7 @@
       @enforceSubscriptionLimit()
       Meteor.defer _.bind ((page) ->
         #@log "subscribing to page #{page}"
-        @subscriptions[page] = @connection.subscribe @id, page,
+        @subscriptions[page] = @ddpConn.subscribe @id, page,
           onReady: _.bind (page) ->
             @onPage page
           , @, page
