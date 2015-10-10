@@ -2,7 +2,7 @@ Package.describe({
   "name": "ergasti:pages",
   "summary": "State of the art, out of the box Meteor pagination",
   "version": "1.8.4",
-  "git": "https://github.com/mnzaki/meteor-pages"
+  "git": "https://github.com/ergasti/meteor-pages"
 });
 
 Package.onUse(function(api){
