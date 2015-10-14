@@ -819,8 +819,13 @@
           return
 
         if (@scrollBox.scrollTop() + @scrollBox[0].offsetHeight >= l)
-          @sess("limit", @sess("limit") + @infiniteStep)
-          
+          n = @Collection.find({},
+            fields: @fields
+            sort: @sort
+          ).count()
+          if (@sess("limit") < n)
+            @sess("limit", @sess("limit") + @infiniteStep)
+
           ###
           if @lastPage < @sess "totalPages"
             console.log "i want page #{@lastPage + 1}"
