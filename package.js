@@ -1,8 +1,8 @@
 Package.describe({
   "name": "ergasti:pages",
   "summary": "State of the art, out of the box Meteor pagination",
-  "version": "1.8.4",
-  "git": "https://github.com/ergasti/meteor-pages"
+  "version": "1.8.6",
+  "git": "https://github.com/mnzaki/meteor-pages"
 });
 
 Package.onUse(function(api){
@@ -38,10 +38,16 @@ Package.onUse(function(api){
     api.addAssets([
         "public/loader.gif"
     ], "client");
+
+    api.addAssets([
+        "public/loader.gif"
+    ], ["client"]);
 });
 
 Package.onTest(function(api){
     api.use([
+        "meteor-platform",
+        "coffeescript",
         "alethes:pages"
     ]);
 
