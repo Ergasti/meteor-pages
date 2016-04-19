@@ -37,10 +37,6 @@ Package.onUse(function(api){
 
     api.addAssets([
         "public/loader.gif"
-    ], "client");
-
-    api.addAssets([
-        "public/loader.gif"
     ], ["client"]);
 });
 
